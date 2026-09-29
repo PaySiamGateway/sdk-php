@@ -27,12 +27,12 @@
 
     // Here is an example of a deposit
     // return deposit result: code=1,message=,transactionId=12817291,paymentUrl=https://www.xxxx...
-    $depositResult = gatewaySdk::deposit('10001', 1.06, 'MYR', 'TNG_MY', 'gateway Test', 'gateway@hotmail.com', '0123456789');
+    $depositResult = gatewaySdk::deposit('10001', 100.00, 'THB', 'BANK_QRCODE', 'gateway Test', 'gateway@hotmail.com', '0812345678');
     echo $depositResult;
 
     // Here is an example of a withdraw
     // return withdraw result: code=1,message=,transactionId=12817291
-    $withdrawResult = gatewaySdk::withdraw('10012', 1.06, 'MYR', 'CIBBMYKL', 'gateway Test', '234719327401231','', 'gateway@hotmail.com', '0123456789');
+    $withdrawResult = gatewaySdk::withdraw('10012', 100.00, 'THB', 'PROMPTPAY_MOBILE', 'gateway Test', '0812345678', '', 'gateway@hotmail.com', '0812345678');
     echo $withdrawResult;
 
     // Here is an example of a detail

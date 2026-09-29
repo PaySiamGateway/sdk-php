@@ -23,8 +23,8 @@ class gatewaySdk
     /** user deposit
      * @param $orderId [order number - maxlength(40)]
      * @param $amount [order amount - maxlength(20)]
-     * @param $currency [Empty default: MYR - maxlength(16)]
-     * @param $payMethod [FPX, TNG_MY, ALIPAY_CN, GRABPAY_MY, BOOST_MY - maxlength(16)]
+     * @param $currency [Empty default: THB - ISO 4217 currency code]
+     * @param $payMethod [PAYPLUS_KBANK, BANK_QRCODE, EPAYMENT_TRUEMONEY]
      * @param $customerName [customer name - maxlength(64)]
      * @param $customerEmail [customer email - maxlength(64)]
      * @param $customerPhone [customer phone - maxlength(20)]
@@ -48,8 +48,8 @@ class gatewaySdk
             // If callbackUrl and redirectUrl are empty, take the values ​​of [curl] and [rurl] in the developer center.
             // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
             // The sorting rules of Json attribute data are arranged from [a-z]
-            $bodyJson = "{\"customer\":{\"email\":\"" . $customerEmail . "\",\"name\":\"" . $customerName . "\",\"phone\":\"" . $customerPhone . "\"},\"method\":\"" . $payMethod . "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "MYR" : $currency) . "\",\"id\":\"" . $orderId . "\",\"title\":\"Payment\"}}";
-            //$bodyJson = "{\"callbackUrl\":\"https://www.google.com\",\"customer\":{\"email\":\"" . $customerEmail . "\",\"name\":\"" . $customerName . "\",\"phone\":\"" . $customerPhone . "\"},\"method\":\"" . $payMethod . "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "MYR" : $currency) . "\",\"id\":\"" . $orderId . "\",\"title\":\"Payment\"},\"redirectUrl\":\"https://www.google.com\"}";
+            $bodyJson = "{\"customer\":{\"email\":\"" . $customerEmail . "\",\"name\":\"" . $customerName . "\",\"phone\":\"" . $customerPhone . "\"},\"method\":\"" . $payMethod . "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "THB" : $currency) . "\",\"id\":\"" . $orderId . "\",\"title\":\"Payment\"}}";
+            //$bodyJson = "{\"callbackUrl\":\"https://www.google.com\",\"customer\":{\"email\":\"" . $customerEmail . "\",\"name\":\"" . $customerName . "\",\"phone\":\"" . $customerPhone . "\"},\"method\":\"" . $payMethod . "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "THB" : $currency) . "\",\"id\":\"" . $orderId . "\",\"title\":\"Payment\"},\"redirectUrl\":\"https://www.google.com\"}";
             $base64ReqBody = self::sortedAfterToBased64($bodyJson);
             $signature = self::createSignature($cnst, $base64ReqBody);
             $encryptData = self::symEncrypt($base64ReqBody);
@@ -79,8 +79,8 @@ class gatewaySdk
     /** user withdraw
      * @param $orderId [order number - maxlength(40)]
      * @param $amount [order amount - maxlength(20)]
-     * @param $currency [Empty default: MYR - maxlength(16)]
-     * @param $bankCode [MayBank=MBB,Public Bank=PBB,CIMB Bank=CIMB,Hong Leong Bank=HLB,RHB Bank=RHB,AmBank=AMMB,United Overseas Bank=UOB,Bank Rakyat=BRB,OCBC Bank=OCBC,HSBC Bank=HSBC  - maxlength(16)]
+     * @param $currency [Empty default: THB - ISO 4217 currency code]
+     * @param $bankCode [PROMPTPAY_MOBILE]
      * @param $cardholder [cardholder - maxlength(64)]
      * @param $accountNumber [account number - maxlength(20)]
      * @param $refName [recipient refName - maxlength(64)]
@@ -108,8 +108,8 @@ class gatewaySdk
             // payoutspeed contain "fast", "normal", "slow" ,default is : "fast"
             // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
             // The sorting rules of Json attribute data are arranged from [a-z]
-            $bodyJson = "{\"order\":{\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "MYR" : $currency) . "\",\"id\":\"" . $orderId . "\"},\"recipient\":{\"email\":\"" . $recipientEmail . "\",\"methodRef\":\"" . $refName . "\",\"methodType\":\"" . $bankCode . "\",\"methodValue\":\"" . $accountNumber . "\",\"name\":\"" . $cardholder . "\",\"phone\":\"" . $recipientPhone . "\"}}";
-            //$bodyJson = "{\"callbackUrl\":\"https://www.google.com\",\"order\":{\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "MYR" : $currency) . "\",\"id\":\"" . $orderId . "\"},\"payoutspeed\":\"normal\",\"recipient\":{\"email\":\"" . $recipientEmail . "\",\"methodRef\":\"" . $refName . "\",\"methodType\":\"" . $bankCode . "\",\"methodValue\":\"" . $accountNumber . "\",\"name\":\"" . $cardholder . "\",\"phone\":\"" . $recipientPhone . "\"}}";
+            $bodyJson = "{\"order\":{\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "THB" : $currency) . "\",\"id\":\"" . $orderId . "\"},\"recipient\":{\"email\":\"" . $recipientEmail . "\",\"methodRef\":\"" . $refName . "\",\"methodType\":\"" . $bankCode . "\",\"methodValue\":\"" . $accountNumber . "\",\"name\":\"" . $cardholder . "\",\"phone\":\"" . $recipientPhone . "\"}}";
+            //$bodyJson = "{\"callbackUrl\":\"https://www.google.com\",\"order\":{\"amount\":\"" . $amount . "\",\"currencyType\":\"" . (self::isnull($currency) ? "THB" : $currency) . "\",\"id\":\"" . $orderId . "\"},\"payoutspeed\":\"normal\",\"recipient\":{\"email\":\"" . $recipientEmail . "\",\"methodRef\":\"" . $refName . "\",\"methodType\":\"" . $bankCode . "\",\"methodValue\":\"" . $accountNumber . "\",\"name\":\"" . $cardholder . "\",\"phone\":\"" . $recipientPhone . "\"}}";
             $base64ReqBody = self::sortedAfterToBased64($bodyJson);
             $signature = self::createSignature($cnst, $base64ReqBody);
             $encryptData = self::symEncrypt($base64ReqBody);
